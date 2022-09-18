@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>JS函数全解</title>
+</head>
+
+<body>
+  <script>
+    /*
+     // 🔺什么时候是函数、什么时候是方法
+  
+      // 这是函数
+      function fn() {
+       console.log(1)
+      }
+      var obj = {
+       fn: fn // 这是方法
+      } */
+
+
+    /* ----------------------------------------------------------- */
+
+
+    // 🔺函数的返回值由什么确定？
+    // · 影响因素
+    // 调用时输入的参数 params
+    // 定义时的环境 env
+
+    // 第一个例子
+    // 因为 a 不是参数，而是环境，环境看定义，所以调用函数的时候a的值为'1'
+
+    /* let x = 'x'
+    let a = '1'
+  
+    //定义
+    function f1(x) {
+     console.log(x + a)  // x1
+     return x + a
+    }
+    // a = 3 如果加这一句 会变成 x3
+    {
+     let a = '2'
+  
+     // 调用
+     f1('x')
+    }
+    // a = 4 对结果没有影响  还是x1，因为调用完了 */
+
+    /*   --------------------------------------------------------------- */
+
+    // 另一个例子
+    /*   let x = 'x'
+      let a = '1'
+      function f1(c) {
+       c()
+      }
+      {
+       // x和a都不是参数，所以看定义附近的a
+       let a = '2'
+       function f2() {
+        console.log(x + a)
+       }
+       f1(f2) //打印出多少 x2
+      }
+     */
+
+
+
+
+
+
+    // 🔺 闭包
+    /* for (var i = 0; i < 6; i++) {
+     setTimeout(
+      () => console.log(i) // 打印出 6个6
+     )
+    }
+  
+  
+    for (var i = 0; i < 6; i++) {
+     ~function (j) {
+      setTimeout(
+       () => console.log(j) // 打印出 1 2 3 4 5 6
+      )
+     }(i)
+  
+    } */
+
+
+
+    let x = 'x'
+    let a = '1'
+    function f1(x, a) {
+      return x + a
+    }
+
+    {
+      let a = '2'
+      console.log(f1('x'))
+    }
+
+
+
+
+  </script>
+</body>
+
+</html>

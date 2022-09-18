@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ <title>Document</title>
+</head>
+
+<body>
+ <button id=b1>1</button>
+ <button id=b2>2</button>
+ <input type="text" id=input1>
+</body>
+<script>
+ /*
+    用户在搜索框输入 Vue 然后后悔了又输入React  此时接口应该React的结果比Vue的结果要快，但是应该先展示Vue的结果再展示React的结果
+
+    这是一个用户买餐的过程：吧台摆放的做好的餐，有可能后付款的用户的餐先做好，但是取餐的时候需要让先付款的用户取餐
+ */
+ ajax1 = function () {
+  return new Promise((resolve, reject) => {
+   setTimeout(() => {
+    resolve('字符串A')
+   }, 5000)
+  })
+ }
+
+ ajax2 = function () {
+  return new Promise((resolve, reject) => {
+   setTimeout(() => {
+    resolve('字符串B')
+   }, 3000)
+  })
+ }
+
+ var 取餐队伍 = []
+ var 吧台 = []
+ var 问 = () => {
+  var lastN = 吧台[吧台.length - 1][0]
+  var lastS = 吧台[吧台.length - 1][1]
+  if (取餐队伍[0][0] === lastN) {
+   取餐队伍[0][1].call(null, lastS)
+   取餐队伍.shift()
+   吧台.pop()
+   问()
+  }
+ }
+
+ b1.onclick = () => {
+  var n = Math.random()
+  ajax1().then((s) => {
+   吧台.push([n, s])
+   问()
+  })
+  取餐队伍.push([n, (s) => {
+   input1.value = s
+
+  }])
+ }
+
+ b2.onclick = () => {
+  var n = Math.random()
+  ajax2().then((s) => {
+   吧台.push([n, s])
+   问()
+  })
+  取餐队伍.push([n, (s) => {
+   input1.value = s
+
+  }])
+ }
+</script>
+
+</html>

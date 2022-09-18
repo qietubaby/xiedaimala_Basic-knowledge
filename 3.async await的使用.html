@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ <title>Document</title>
+</head>
+
+<body>
+ <script>
+
+  /*
+  // 🔺基础用法
+  function a() {
+   return new Promise((resolve, reject) => {
+    setTimeout(() => {
+     resolve(Math.floor(Math.random() * 6) + 1)
+    }, 3000)
+   })
+  }
+  async function fn() {
+   var result = await a()
+   console.log(result)
+  }
+  fn() */
+
+
+  /*   // 🔺捕获错误
+    function b() {
+     throw new Error('色子坏了')
+    }
+    async function fn() {
+     try {
+      var result = await b()
+      console.log(result)
+     } catch (e) {
+      console.log(e)
+     }
+    }
+    fn() */
+
+
+  // 🔺捕获错误
+  ajax = function () {
+   return new Promise((resolve, reject) => {
+    resolve({
+     data: { name: 'frank' }
+    })
+    // reject({
+    //  response: {
+    //   status: 403
+    //  }
+    // })
+   })
+  }
+  var error = (e) => {
+   console.log(e)
+   throw e
+  }
+
+  // await只接收成功的结果
+  // then处理错误
+  async function fn() {
+   const response = await ajax().then(null, error)
+   console.log(response)
+  }
+
+  fn()
+
+ </script>
+</body>
+
+</html>

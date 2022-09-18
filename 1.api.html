@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      // ▲ Promise.resolve 和 Promise.reject
+      /*
+    function a() {
+     // 如果传入的是一个失败的Promise，那么它就是一个失败的promise
+     return Promise.resolve(new Promise((resolve, reject) => reject()))
+    }
+
+    Promise.resolve(1).then(function (n) {
+     console.log(n)
+    })
+    Promise.reject('我错了').then(null, (reason) => {
+     console.log(reason)
+    })
+  */
+
+      // ▲ Promise.all 如果有其中一个失败，就失败
+      function a() {
+        return new Promise((resolve, reject) => {
+          resolve("失败了");
+        });
+      }
+      function b() {
+        return new Promise((resolve, reject) => {
+          resolve(2);
+        });
+      }
+      function c() {
+        return new Promise((resolve, reject) => {
+          resolve(3);
+        });
+      }
+
+      Promise.all([a(), b(), c()]).then(
+        function (values) {
+          console.log("all", values); // [1,2,3]
+        },
+        function (err) {
+          console.log("all", err);
+        }
+      );
+
+      // ▲ Promise.allSettled 把失败和成功的结果都拿到
+      /* function a() {
+      return new Promise((resolve, reject) => {
+        reject('失败了')
+      })
+    }
+    function b() {
+      return new Promise((resolve, reject) => {
+        resolve(2)
+      })
+    }
+    function c() {
+      return new Promise((resolve, reject) => {
+        resolve(3)
+      })
+    }
+
+    Promise.allSettled([a(), b(), c()]).then(function (values) {
+      console.log(values) // [1,2,3]
+    }, function (err) {
+      console.log(err)
+    }) */
+
+      // 使用Promise.all捕获所有的状态 利用.then会返回一个新的Promise 的特性
+      task1 = () =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => {
+            reject("第一扇门关了");
+          }, 3000);
+        });
+      task2 = () =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => {
+            reject("第二扇门关了");
+          }, 4000);
+        });
+
+      task3 = () =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve("第三扇门开了");
+          }, 5000);
+        });
+
+      /*  Promise.all([
+      task1().then((value) => ({ status: value }), (reason) => ({ status: reason })),
+      task2().then((value) => ({ status: value }), (reason) => ({ status: reason })),
+      task3().then((value) => ({ status: value }), (reason) => ({ status: reason }))]
+    ).then(result => {
+      console.log(result)
+    }) */
+
+      // 下面是上面方法的简写
+      x = (promiseList) =>
+        promiseList.map((promise) =>
+          promise.then(
+            (value) => ({ status: "ok", value }),
+            (reason) => ({
+              status: "not ok",
+              reason,
+            })
+          )
+        );
+
+      Promise.all(x([task1(), task2(), task3()])).then((result) => {
+        console.log(result);
+      });
+    </script>
+  </body>
+</html>

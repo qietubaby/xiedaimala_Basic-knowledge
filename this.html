@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let length = 10;
+    function fn() {
+      console.log(this.length)
+    }
+
+    let obj = {
+      length: 5,
+      method(fn){
+        fn() // 改写为call fn.call(undefined),所以this指向window， let的length不会挂载到window上，所以window的length是iframe的个数 
+        arguments[0]() // 改写call arguments.0.call(arguments)  => fn.call(arguments)  所以arugments就是this  arguments是实参的长度 //2 
+      }
+    }
+    obj.method(fn, 1) //输出什么
+
+  </script>
+</body>
+</html>
